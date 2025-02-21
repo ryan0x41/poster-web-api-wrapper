@@ -64,7 +64,6 @@ class PosterAPI {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			withCredentials: true, // backend needs cookies for most requests
 		});
 
 		// set the cookie as authToken when authToken provided
@@ -80,8 +79,8 @@ class PosterAPI {
 
 	// set or update authToken given token
 	setAuthToken(token) {
-		// api uses Cookie header for storing authToken
-		this.axios.defaults.headers.common['Cookie'] = `authToken=${token}`;
+		// api uses auth header for storing authToken
+		this.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 	}
 
 	// the _ doesnt do anything but i read somewhere its good practice to make sure 

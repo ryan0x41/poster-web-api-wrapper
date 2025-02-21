@@ -4,12 +4,15 @@ const PosterAPI = require('../posterApiWrapper').default;
 // instance of PosterApiWrapper, i think this is what it should look like
 const api = new PosterAPI({
   baseURL: 'https://api.poster-social.com', 
-  authToken: 'dummy'
+  authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM0OTI3MjIzLTY5OTAtNDIwMC1iYTg0LTZiNTI1ZDAwNzI2MyIsInVzZXJuYW1lIjoiMHhyeWFuIiwiZW1haWwiOiJyeWFuYW50aG9ueXNoZXJpZGFuQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTc0MDE2MDA4OSwiZXhwIjoxNzQwMjQ2NDg5fQ.4-t-vD1R775M4QSIqZG6kD3qCF6W-q_YOEtjz3kvQFo'
 });
 
 (async () => {
   try {
-    const profileResponse = await api.getUserProfile('exampleUser', { cacheTTL: 30000 });
+    let profileResponse;
+    
+    profileResponse = await api.getUserProfile('0xryan', { cacheTTL: 30000 });
+    profileResponse = await api.getUserProfile('0xryan', { cacheTTL: 30000 });
 
     console.log('[*] get profile response:', profileResponse);
 

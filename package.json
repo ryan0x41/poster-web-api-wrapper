@@ -4,7 +4,7 @@
   "description": "a js api wrapper for poster-api that works on frontend and backend using axios",
   "main": "index.js",
   "scripts": {
-    "test": "node source/tests/test.js"
+    "test": "node src/tests/test.js"
   },
   "repository": {
     "type": "git",
