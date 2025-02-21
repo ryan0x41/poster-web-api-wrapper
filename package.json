@@ -1,0 +1,33 @@
+{
+  "name": "poster-web-api-wrapper",
+  "version": "1.0.0",
+  "description": "a js api wrapper for poster-api that works on frontend and backend using axios",
+  "main": "index.js",
+  "scripts": {
+    "test": "node source/tests/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryan0x41/poster-web-api-wrapper.git"
+  },
+  "keywords": [
+    "api",
+    "wrapper",
+    "js",
+    "axios",
+    "poster",
+    "social",
+    "music",
+    "media",
+    "share"
+  ],
+  "author": "Ryan Sheridan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryan0x41/poster-web-api-wrapper/issues"
+  },
+  "homepage": "https://github.com/ryan0x41/poster-web-api-wrapper#readme",
+  "dependencies": {
+    "axios": "^1.7.9"
+  }
+}
