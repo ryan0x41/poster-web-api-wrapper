@@ -79,8 +79,12 @@ class PosterAPI {
 
 	// set or update authToken given token
 	setAuthToken(token) {
-		// api uses auth header for storing authToken
-		this.axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+		if (token) {
+			// api uses auth header for storing authToken
+			this.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+		} else {
+			delete this.axios.defaults.headers.common["Authorization"];
+		}
 	}
 
 	// the _ doesnt do anything but i read somewhere its good practice to make sure 
