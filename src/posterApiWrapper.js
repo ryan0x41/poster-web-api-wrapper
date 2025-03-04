@@ -140,6 +140,16 @@ class PosterAPI {
 		);
 	}
 
+	// get user profile given a userId
+	getUserProfileById(userId, { cacheTTL } = {}) {
+		const cacheKey = `userProfileById_${userId}`;
+		return this._cachedRequest(
+		  cacheKey,
+		  () => this.axios.get(`/user/profile/id/${userId}`).then(res => res.data),
+		  cacheTTL
+		);
+	  }
+
 	// update user info given data 
 	updateUserInfo(data) {
 		// data: { newEmail, newUsername }
