@@ -61,6 +61,7 @@ class PosterAPI {
 		// create an axios instance
 		this.axios = axios.create({
 			baseURL,
+			withCredentials: true,
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -123,6 +124,16 @@ class PosterAPI {
 	loginUser(data) {
 		// data: { usernameOrEmail, password }
 		return this.axios.post('/user/login', data).then(res => res.data);
+	}
+
+	// log a user out
+	logoutUser() {
+		return this.axios.post('/user/logout').then(res => res.data);
+	}
+
+	// auth user
+	auth() {
+		return this.axios.get('/user/auth').then(res => res.data);
 	}
 
 	// get user profile given a username
@@ -261,6 +272,13 @@ class PosterAPI {
 	likeComment(commentId) {
 		return this.axios.post('/comment/like', {
 			commentId
+		}).then(res => res.data);
+	}
+
+	// like a post for a given postId
+	likePost(postId) {
+		return this.axios.post('/post/like', {
+			postId
 		}).then(res => res.data);
 	}
 
