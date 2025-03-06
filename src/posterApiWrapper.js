@@ -126,6 +126,12 @@ class PosterAPI {
 		return this.axios.post('/user/login', data).then(res => res.data);
 	}
 
+	// reset password
+	resetPassword(data) {
+		// data: { oldPassword, newPassword, email }
+		return this.axios.post('/user/reset-password', data).then(res => res.data);
+	}
+
 	// log a user out
 	logoutUser() {
 		return this.axios.post('/user/logout').then(res => res.data);
