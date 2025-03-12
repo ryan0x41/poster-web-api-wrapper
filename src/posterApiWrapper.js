@@ -157,6 +157,11 @@ class PosterAPI {
 		);
 	}
 
+	// get newly signed up users
+	getNewUsers() {
+		return this.axios.get('/analytics/new/users').then(res => res.data);
+	}
+
 	// get user profile given a userId
 	getUserProfileById(userId, { cacheTTL } = {}) {
 		const cacheKey = `userProfileById_${userId}`;
