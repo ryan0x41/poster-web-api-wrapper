@@ -1,3 +1,4 @@
+import io from 'socket.io-client';
 import axios from 'axios';
 
 // cache implementation
@@ -58,6 +59,8 @@ class PosterAPI {
 		cacheEnabled = true,
 		defaultTTL = 60000
 	}) {
+		this.baseURL = baseURL;
+
 		// create an axios instance
 		this.axios = axios.create({
 			baseURL,
@@ -78,8 +81,29 @@ class PosterAPI {
 		this.defaultTTL = defaultTTL;
 	}
 
+	// start a socket connection with the backend
+	startSocketConnection(port, callback) {
+		const url = new URL(this.baseURL);
+		const protocol = url.protocol === 'https:' ? 'wss' : 'ws';
+		const socketURL = `${protocol}://${url.hostname}:${port}`;
+	
+		const socket = io(socketURL, {
+			auth: { token: this.authToken }
+		});
+	
+		socket.on('new_message', (data) => {
+			console.log('received:', data);
+			callback(data);
+		});
+	
+		return socket;
+	}	
+
+
 	// set or update authToken given token
 	setAuthToken(token) {
+		this.authToken = token;
+
 		if (token) {
 			// api uses auth header for storing authToken
 			this.axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -166,11 +190,11 @@ class PosterAPI {
 	getUserProfileById(userId, { cacheTTL } = {}) {
 		const cacheKey = `userProfileById_${userId}`;
 		return this._cachedRequest(
-		  cacheKey,
-		  () => this.axios.get(`/user/profile/id/${userId}`).then(res => res.data),
-		  cacheTTL
+			cacheKey,
+			() => this.axios.get(`/user/profile/id/${userId}`).then(res => res.data),
+			cacheTTL
 		);
-	  }
+	}
 
 	// update user info given data 
 	updateUserInfo(data) {
