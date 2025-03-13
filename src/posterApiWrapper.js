@@ -81,23 +81,33 @@ class PosterAPI {
 		this.defaultTTL = defaultTTL;
 	}
 
-	// start a socket connection with the backend
-	startSocketConnection(port, callback) {
+	// websocket connection to backend
+	// currently for typing and messages
+	wsConnection(port, messageCallback, typingCallback) {
 		const url = new URL(this.baseURL);
 		const protocol = url.protocol === 'https:' ? 'wss' : 'ws';
 		const socketURL = `${protocol}://${url.hostname}:${port}`;
-	
+
 		const socket = io(socketURL, {
 			auth: { token: this.authToken }
 		});
-	
+
 		socket.on('new_message', (data) => {
-			console.log('received:', data);
-			callback(data);
+			console.log('received message:', data);
+			if (typeof messageCallback === 'function') {
+				messageCallback(data);
+			}
 		});
-	
+
+		socket.on('typing', (data) => {
+			console.log('received typing:', data);
+			if (typeof typingCallback === 'function') {
+				typingCallback(data);
+			}
+		});
+
 		return socket;
-	}	
+	}
 
 
 	// set or update authToken given token
@@ -332,6 +342,11 @@ class PosterAPI {
 			conversationId,
 			content
 		}).then(res => res.data);
+	}
+
+	// send typing
+	sendTyping(conversationId) {
+		return this.axios.patch(`/message/typing/${conversationId}`).then(res => res.data);
 	}
 
 	// get all conversations a user is a participant in
