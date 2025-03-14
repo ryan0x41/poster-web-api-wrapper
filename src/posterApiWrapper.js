@@ -336,6 +336,11 @@ class PosterAPI {
 		}).then(res => res.data);
 	}
 
+	// delete conversation
+	deleteConversation(conversationId) {
+		return this.axios.delete(`/conversation/delete/${conversationId}`).then(res => res.data);
+	}
+
 	// send a message to a conversation
 	sendMessage(conversationId, content) {
 		return this.axios.post('/message/send', {
