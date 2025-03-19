@@ -261,6 +261,11 @@ class PosterAPI {
 		);
 	}
 
+	// SECTION: notifications
+	getNotifications(page) {
+		return this.axios.get(`/notification/all/${page}`).then(res => res.data);
+	}
+
 	// SECTION: posts
 
 	createPost(data) {
