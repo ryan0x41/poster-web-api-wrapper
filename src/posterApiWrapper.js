@@ -81,9 +81,10 @@ class PosterAPI {
 		this.defaultTTL = defaultTTL;
 	}
 
-	// websocket connection to backend
-	// currently for typing and messages
-	wsConnection(port, messageCallback, typingCallback) {
+	// SECTION: websockets
+
+	// start websocket connection to backend
+	_wsConnection(port) {
 		const url = new URL(this.baseURL);
 		const protocol = url.protocol === 'https:' ? 'wss' : 'ws';
 		const socketURL = `${protocol}://${url.hostname}:${port}`;
@@ -92,23 +93,46 @@ class PosterAPI {
 			auth: { token: this.authToken }
 		});
 
-		socket.on('new_message', (data) => {
+		return socket;
+	}
+
+	// public method to init web socket connection
+	initWsConnection(port) {
+		if(!this.socket) {
+			this.socket = this._wsConnection(port);
+		}
+	}
+	
+	// for chat page
+	chatWsConnection(port, messageCallback, typingCallback) {
+		this.initWsConnection(port);
+
+		this.socket.on('new_message', (data) => {
 			console.log('received message:', data);
 			if (typeof messageCallback === 'function') {
 				messageCallback(data);
 			}
 		});
 
-		socket.on('typing', (data) => {
+		this.socket.on('typing', (data) => {
 			console.log('received typing:', data);
 			if (typeof typingCallback === 'function') {
 				typingCallback(data);
 			}
 		});
-
-		return socket;
 	}
 
+	// notification web socket connection
+	notificationWsConnection(port, notificationCallback) {
+		this.initWsConnection(port);
+		
+		this.socket.on('new_notification', (data) => {
+			console.log('notification recieved: ', data);
+			if(typeof notificationCallback === 'function') {
+				notificationCallback(data.notificationData);
+			}
+		});
+	}
 
 	// set or update authToken given token
 	setAuthToken(token) {
@@ -262,8 +286,16 @@ class PosterAPI {
 	}
 
 	// SECTION: notifications
-	getNotifications(page) {
+	getNotifications(page = 1) {
 		return this.axios.get(`/notification/all/${page}`).then(res => res.data);
+	}
+
+	readNotification(notificationId) {
+		return this.axios.patch(`/notification/read/id/${notificationId}`).then(res => res.data);
+	}
+
+	readAllNotification() {
+		return this.axios.patch(`/notification/read/all`).then(res => res.data);
 	}
 
 	// SECTION: posts
