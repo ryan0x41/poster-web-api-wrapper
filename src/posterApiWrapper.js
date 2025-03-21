@@ -98,11 +98,11 @@ class PosterAPI {
 
 	// public method to init web socket connection
 	initWsConnection(port) {
-		if(!this.socket) {
+		if (!this.socket) {
 			this.socket = this._wsConnection(port);
 		}
 	}
-	
+
 	// for chat page
 	chatWsConnection(port, messageCallback, typingCallback) {
 		this.initWsConnection(port);
@@ -125,10 +125,10 @@ class PosterAPI {
 	// notification web socket connection
 	notificationWsConnection(port, notificationCallback) {
 		this.initWsConnection(port);
-		
+
 		this.socket.on('new_notification', (data) => {
 			console.log('notification recieved: ', data);
-			if(typeof notificationCallback === 'function') {
+			if (typeof notificationCallback === 'function') {
 				notificationCallback(data.notificationData);
 			}
 		});
@@ -286,6 +286,7 @@ class PosterAPI {
 	}
 
 	// SECTION: notifications
+
 	getNotifications(page = 1) {
 		return this.axios.get(`/notification/all/${page}`).then(res => res.data);
 	}
@@ -419,6 +420,11 @@ class PosterAPI {
 	// link spotify
 	linkSpotify() {
 		return this.axios.get('/spotify/auth').then(res => res.data);
+	}
+	
+	// unlink spotify 
+	unlinkSpotify() {
+		return this.axios.get('/user/spotify/unlink').then(res => res.data);
 	}
 
 	// top artists for userId
