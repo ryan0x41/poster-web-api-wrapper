@@ -453,6 +453,11 @@ class PosterAPI {
 	createReport(reportData) {
 		return this.axios.post('/report/create', reportData).then(res => res.data);
 	}
+
+	// get reports if user is admin
+	getReports() {
+		return this.axios.get('/report/all').then(res => res.data);
+	}
 }
 
 export default PosterAPI;
