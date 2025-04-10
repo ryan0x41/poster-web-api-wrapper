@@ -458,6 +458,11 @@ class PosterAPI {
 	getReports() {
 		return this.axios.get('/report/all').then(res => res.data);
 	}
+
+	processReport(reportId, action) {
+		const postData = { reportId: reportId, action: action};
+		return this.axios.post('/report/process', postData).then(res => res.data);
+	}
 }
 
 export default PosterAPI;
