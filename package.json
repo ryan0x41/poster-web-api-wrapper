@@ -1,10 +1,11 @@
 {
   "name": "poster-web-api-wrapper",
   "version": "1.0.0",
-  "description": "a js api wrapper for poster-api that works on frontend and backend using axios",
+  "type": "module",
+  "description": "A JS API wrapper for poster-api that works on frontend and backend using axios",
   "main": "index.js",
   "scripts": {
-    "test": "node src/tests/test.js"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,8 @@
   "homepage": "https://github.com/ryan0x41/poster-web-api-wrapper#readme",
   "dependencies": {
     "axios": "^1.7.9"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
